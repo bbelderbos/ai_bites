@@ -14,8 +14,7 @@ def test_returns_stripped_string():
 
 
 def test_system_prompt_lists_all_categories():
-    for cat in CATEGORIES:
-        assert cat in SYSTEM_PROMPT
+    assert all(cat in SYSTEM_PROMPT for cat in CATEGORIES)
 
 
 def test_system_prompt_restricts_output():

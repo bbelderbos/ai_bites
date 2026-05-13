@@ -31,8 +31,18 @@ def test_history_alternates_roles():
 
 
 def test_full_history_sent_on_second_call():
-    chat = Chat(_mock_client("First reply", "Second reply"))
+    captured: list[list[dict]] = []
+    replies = iter(["First reply", "Second reply"])
+
+    def fake_create(**kwargs):
+        captured.append(list(kwargs["messages"]))
+        return MagicMock(content=[MagicMock(text=next(replies))])
+
+    client = MagicMock()
+    client.messages.create.side_effect = fake_create
+
+    chat = Chat(client)
     chat.ask("msg1")
     chat.ask("msg2")
-    second_call_messages = chat.client.messages.create.call_args_list[1].kwargs["messages"]
-    assert len(second_call_messages) == 3  # user, assistant, user
+
+    assert len(captured[1]) == 3  # user, assistant, user

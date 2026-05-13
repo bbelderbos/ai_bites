@@ -6,7 +6,7 @@ Warmup exercises for the [Agentic AI Cohort](https://pythonagenticai.com).
 
 ## Prerequisites
 
-- Python **3.14+**
+- Python **3.12+**
 - [`uv`](https://github.com/astral-sh/uv)
 - An Anthropic API key
 
