@@ -65,19 +65,25 @@ def main() -> int:
             status = f"{YELLOW}in progress{RESET}"
         print(f"  {mark}  {name:<25} {status}")
 
-    bar = "".join(f"{GREEN}█{RESET}" if b.name in completed else f"{DIM}░{RESET}" for b in bites)
+    bar = "".join(
+        f"{GREEN}█{RESET}" if b.name in completed else f"{DIM}░{RESET}" for b in bites
+    )
     pct = round(100 * len(completed) / len(bites))
     print(f"\n  [{bar}]  {len(completed)}/{len(bites)}  ({pct}%)\n")
 
     if newly_done:
         print(f"  {GREEN}🎉 New this run: {', '.join(newly_done)}{RESET}\n")
-        state["history"].append({"at": datetime.now(timezone.utc).isoformat(), "completed": newly_done})
+        state["history"].append(
+            {"at": datetime.now(timezone.utc).isoformat(), "completed": newly_done}
+        )
 
     state["completed"] = sorted(completed)
     save_state(state)
 
     if len(completed) == len(bites):
-        print(f"  {BOLD}{GREEN}All bites complete. Ready for the cohort → https://pythonagenticai.com{RESET}\n")
+        print(
+            f"  {BOLD}{GREEN}All bites complete. Ready for the cohort → https://pythonagenticai.com{RESET}\n"
+        )
 
     return 0
 

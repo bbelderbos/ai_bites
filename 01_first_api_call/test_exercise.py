@@ -5,7 +5,9 @@ from solution import get_completion
 
 def test_returns_text():
     mock_client = MagicMock()
-    mock_client.messages.create.return_value.content = [MagicMock(text="Hello, Pythonista!")]
+    mock_client.messages.create.return_value.content = [
+        MagicMock(text="Hello, Pythonista!")
+    ]
     with patch("solution.anthropic.Anthropic", return_value=mock_client):
         assert get_completion("Say hello") == "Hello, Pythonista!"
 

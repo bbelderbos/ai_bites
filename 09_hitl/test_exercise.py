@@ -4,7 +4,9 @@ from solution import process_with_hitl, ClassificationResult
 
 
 def _result(category: str = "Food", confidence: float = 0.9) -> ClassificationResult:
-    return ClassificationResult(category=category, confidence=confidence, reason="test reason")
+    return ClassificationResult(
+        category=category, confidence=confidence, reason="test reason"
+    )
 
 
 def test_high_confidence_auto_accepts():
@@ -27,7 +29,9 @@ def test_low_confidence_user_confirms_with_y():
 
 def test_low_confidence_user_overrides():
     with patch("builtins.input", return_value="Transport"):
-        assert process_with_hitl(_result(category="Food", confidence=0.4)) == "Transport"
+        assert (
+            process_with_hitl(_result(category="Food", confidence=0.4)) == "Transport"
+        )
 
 
 def test_custom_threshold():

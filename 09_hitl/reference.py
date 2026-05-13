@@ -11,7 +11,9 @@ def process_with_hitl(result: ClassificationResult, threshold: float = 0.8) -> s
     if result.confidence >= threshold:
         return result.category
 
-    print(f"Low confidence ({result.confidence:.0%}): '{result.category}' — {result.reason}")
+    print(
+        f"Low confidence ({result.confidence:.0%}): '{result.category}' — {result.reason}"
+    )
     user_input = input(
         f"Accept '{result.category}'? (Enter to confirm, or type a category): "
     ).strip()

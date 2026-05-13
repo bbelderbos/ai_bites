@@ -33,7 +33,9 @@ def test_returns_final_answer():
 def test_tool_result_sent_to_model():
     client = MagicMock()
     client.messages.create.side_effect = [
-        MagicMock(stop_reason="tool_use", content=[_tool_call("multiply", "t2", a=6, b=7)]),
+        MagicMock(
+            stop_reason="tool_use", content=[_tool_call("multiply", "t2", a=6, b=7)]
+        ),
         MagicMock(stop_reason="end_turn", content=[MagicMock(type="text", text="42")]),
     ]
     Agent(client).run("What is 6 * 7?")

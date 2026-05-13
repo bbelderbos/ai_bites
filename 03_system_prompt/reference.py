@@ -1,6 +1,17 @@
-import anthropic
+from typing import cast
 
-CATEGORIES = ["Food", "Transport", "Entertainment", "Shopping", "Health", "Bills", "Other"]
+import anthropic
+from anthropic.types import TextBlock
+
+CATEGORIES = [
+    "Food",
+    "Transport",
+    "Entertainment",
+    "Shopping",
+    "Health",
+    "Bills",
+    "Other",
+]
 
 SYSTEM_PROMPT = (
     f"You are an expense classifier. "
@@ -16,4 +27,4 @@ def classify_with_role(description: str, client: anthropic.Anthropic) -> str:
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": description}],
     )
-    return message.content[0].text.strip()
+    return cast(TextBlock, message.content[0]).text.strip()

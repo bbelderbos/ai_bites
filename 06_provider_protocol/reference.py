@@ -1,5 +1,7 @@
+from typing import Protocol, cast
+
 import anthropic
-from typing import Protocol
+from anthropic.types import MessageParam, TextBlock
 
 
 class LLMProvider(Protocol):
@@ -15,9 +17,9 @@ class ClaudeProvider:
         response = self.client.messages.create(
             model=self.model,
             max_tokens=512,
-            messages=messages,
+            messages=cast(list[MessageParam], messages),
         )
-        return response.content[0].text
+        return cast(TextBlock, response.content[0]).text
 
 
 class MockProvider:

@@ -43,5 +43,7 @@ def test_provider_called_once():
 
 def test_expense_saved_to_repo():
     repo = MockRepo()
-    ClassificationService(MockProvider("Health"), repo).classify_and_save("pharmacy", 15.0)
+    ClassificationService(MockProvider("Health"), repo).classify_and_save(
+        "pharmacy", 15.0
+    )
     assert len(repo.saved) == 1

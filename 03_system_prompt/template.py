@@ -1,6 +1,14 @@
 import anthropic
 
-CATEGORIES = ["Food", "Transport", "Entertainment", "Shopping", "Health", "Bills", "Other"]
+CATEGORIES = [
+    "Food",
+    "Transport",
+    "Entertainment",
+    "Shopping",
+    "Health",
+    "Bills",
+    "Other",
+]
 
 # TODO: rewrite this prompt so the model returns exactly one category name, nothing else
 SYSTEM_PROMPT = "Classify the expense."

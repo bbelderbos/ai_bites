@@ -1,6 +1,16 @@
-import anthropic
+from collections.abc import Callable
+from typing import cast
 
-TOOLS = [
+import anthropic
+from anthropic.types import (
+    MessageParam,
+    TextBlock,
+    ToolParam,
+    ToolResultBlockParam,
+    ToolUseBlock,
+)
+
+TOOLS: list[ToolParam] = [
     {
         "name": "add",
         "description": "Add two numbers",
@@ -27,7 +37,7 @@ TOOLS = [
     },
 ]
 
-TOOL_FUNCTIONS: dict[str, callable] = {
+TOOL_FUNCTIONS: dict[str, Callable[..., float]] = {
     "add": lambda a, b: a + b,
     "multiply": lambda a, b: a * b,
 }
@@ -38,7 +48,7 @@ class Agent:
         self.client = client
 
     def run(self, task: str) -> str:
-        messages = [{"role": "user", "content": task}]
+        messages: list[MessageParam] = [{"role": "user", "content": task}]
 
         while True:
             response = self.client.messages.create(
@@ -49,16 +59,20 @@ class Agent:
             )
 
             if response.stop_reason == "end_turn":
-                return response.content[0].text
+                return cast(TextBlock, response.content[0]).text
 
-            tool_results = [
+            tool_uses = [
+                cast(ToolUseBlock, b)
+                for b in response.content
+                if b.type == "tool_use"
+            ]
+            tool_results: list[ToolResultBlockParam] = [
                 {
                     "type": "tool_result",
-                    "tool_use_id": block.id,
-                    "content": str(TOOL_FUNCTIONS[block.name](**block.input)),
+                    "tool_use_id": b.id,
+                    "content": str(TOOL_FUNCTIONS[b.name](**b.input)),
                 }
-                for block in response.content
-                if block.type == "tool_use"
+                for b in tool_uses
             ]
 
             messages.append({"role": "assistant", "content": response.content})

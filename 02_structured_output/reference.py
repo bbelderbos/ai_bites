@@ -1,7 +1,18 @@
+from typing import cast
+
 import anthropic
+from anthropic.types import TextBlock
 from pydantic import BaseModel
 
-CATEGORIES = ["Food", "Transport", "Entertainment", "Shopping", "Health", "Bills", "Other"]
+CATEGORIES = [
+    "Food",
+    "Transport",
+    "Entertainment",
+    "Shopping",
+    "Health",
+    "Bills",
+    "Other",
+]
 
 
 class ExpenseResult(BaseModel):
@@ -21,4 +32,6 @@ def classify_expense(description: str, client: anthropic.Anthropic) -> ExpenseRe
         system=system,
         messages=[{"role": "user", "content": description}],
     )
-    return ExpenseResult.model_validate_json(message.content[0].text)
+    return ExpenseResult.model_validate_json(
+        cast(TextBlock, message.content[0]).text
+    )

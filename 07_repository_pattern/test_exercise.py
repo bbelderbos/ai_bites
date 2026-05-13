@@ -2,7 +2,9 @@ from solution import InMemoryExpenseRepo, Expense
 
 
 def _expense(**kwargs) -> Expense:
-    return Expense(**{"description": "coffee", "amount": 3.50, "category": "Food", **kwargs})
+    return Expense(
+        **{"description": "coffee", "amount": 3.50, "category": "Food", **kwargs}
+    )
 
 
 def test_add_and_get():

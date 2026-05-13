@@ -1,7 +1,15 @@
 import anthropic
 from pydantic import BaseModel
 
-CATEGORIES = ["Food", "Transport", "Entertainment", "Shopping", "Health", "Bills", "Other"]
+CATEGORIES = [
+    "Food",
+    "Transport",
+    "Entertainment",
+    "Shopping",
+    "Health",
+    "Bills",
+    "Other",
+]
 
 
 class ExpenseResult(BaseModel):

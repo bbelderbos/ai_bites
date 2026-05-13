@@ -22,7 +22,9 @@ def test_category_field():
 
 
 def test_confidence_is_float():
-    client = _mock_client({"category": "Health", "confidence": 0.8, "reason": "pharmacy"})
+    client = _mock_client(
+        {"category": "Health", "confidence": 0.8, "reason": "pharmacy"}
+    )
     result = classify_expense("pharmacy", client)
     assert 0.0 <= result.confidence <= 1.0
 

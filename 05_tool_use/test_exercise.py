@@ -23,7 +23,10 @@ def test_returns_final_text():
     final = MagicMock(type="text", text="The rate is 0.92")
     client = MagicMock()
     client.messages.create.side_effect = [
-        MagicMock(stop_reason="tool_use", content=[_tool_call("t1", from_currency="USD", to_currency="EUR")]),
+        MagicMock(
+            stop_reason="tool_use",
+            content=[_tool_call("t1", from_currency="USD", to_currency="EUR")],
+        ),
         MagicMock(stop_reason="end_turn", content=[final]),
     ]
     assert answer_with_tools("USD to EUR?", client) == "The rate is 0.92"
@@ -32,8 +35,13 @@ def test_returns_final_text():
 def test_tool_result_sent_back():
     client = MagicMock()
     client.messages.create.side_effect = [
-        MagicMock(stop_reason="tool_use", content=[_tool_call("t2", from_currency="USD", to_currency="GBP")]),
-        MagicMock(stop_reason="end_turn", content=[MagicMock(type="text", text="done")]),
+        MagicMock(
+            stop_reason="tool_use",
+            content=[_tool_call("t2", from_currency="USD", to_currency="GBP")],
+        ),
+        MagicMock(
+            stop_reason="end_turn", content=[MagicMock(type="text", text="done")]
+        ),
     ]
     answer_with_tools("USD to GBP?", client)
     last_message = client.messages.create.call_args_list[1].kwargs["messages"][-1]
