@@ -17,7 +17,7 @@ class LLMProvider(Protocol):
 
 Any class with a matching `complete` method satisfies this — no inheritance needed. Your service only sees the Protocol, never the concrete class.
 
-**Why care?** Swap Claude for GPT-4 by changing one line at the call site. Test without hitting any API. This is how the cohort handles multi-provider support.
+**Why care?** Swap providers by changing one line at the call site. Test without hitting any API. The cohort uses this same pattern to support OpenAI and Groq side by side — once you've got the Protocol, adding a third provider is a 30-line file.
 
 ## Task
 
