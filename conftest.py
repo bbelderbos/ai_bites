@@ -3,6 +3,7 @@ import sys
 
 
 def pytest_collect_file(parent, file_path):
+    """Let me run tests locally against reference.py when solution.py is absent."""
     if file_path.name == "test_exercise.py":
         sys.modules.pop("solution", None)
         exercise_dir = file_path.parent
